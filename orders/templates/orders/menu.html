@@ -1,0 +1,196 @@
+{% extends 'orders/base.html' %}
+{% load static %}
+
+{% block body %}
+<script type="text/javascript" src="{% static 'orders/menu.js' %}"></script>
+<link rel="stylesheet" href="{% static 'orders/menu.css' %}">
+<!-- handlebars -->
+<script type="text/x-handlebars-template" id="NewCart">
+    {% verbatim %}
+        <li>{{meal.fields.name}}, small:{{meal.fields.small}}{{#if meal.fields.large}}, large: {{/if}}{{meal.fields.large}} {{order.fields.price}} {{order.fields.toppings}}
+           <button class="remove" type="button" name="button">remove</button>
+            <input type="hidden" name="" value="{{order.pk}}">
+        </li>
+
+    {% endverbatim %}
+</script>
+
+
+<script type="text/x-handlebars-template" id="Toppings_template">
+
+  {% verbatim %}
+  <br><br>
+
+      <form>
+        <div class="multiselect">
+          <div class="selectBox" >
+            {{name}}: <select class="topping_cart">
+              <option>Select an option</option>
+            </select>
+            <div class="overSelect"></div>
+          </div>
+          <div id="checkboxes">
+            {{#each topping}}
+            <label for="{{this.pk}}">
+              <input type="checkbox" id="{{this.pk}}" value="{{this.pk}}"/>{{this.fields.name}}</label>
+            {{/each}}
+          </div>
+        </div>
+      </form>
+  {% endverbatim %}
+</script>
+
+<!-- handlebars -->
+<div >
+    <ul class="meal-type">
+      {% csrf_token %}
+      <li>
+         <h3>Regular Pizza</h3>
+        <ul>
+            {% for name in RPs %}
+              <label for="{{name.name}}">{{name}}</label>
+                  <div class="meal" method="post">
+                    <input id="order_id" type="hidden" value="{{name.id}}"><input id="className" type="hidden" value="RegularPizza">
+                    <input type="hidden" id="order_name" value="{{name.name}}">
+              Size:  <select id="size" name="{{name.name}}">
+                      {% if name.large %}
+                       <option value="Large">Large</option>
+                      {% endif %}
+                       <option value="Small">Small</option>
+                     </select>
+                     <span id="toppings_place"></span>
+                     <button type="submit" class="add" data-value="{{name}}">add to cart</button>
+                   </div>
+                <hr>
+            {% endfor %}
+        </ul>
+      </li>
+
+      <li>
+         <h3>Sicilisn Pizza</h3>
+        <ul>
+            {% for name in SPs %}
+                    <label for="{{name.name}}">{{name}}</label>
+                    <div class="meal" method="post">
+                      <input id="order_id" type="hidden" value="{{name.id}}"><input id="className" type="hidden" value="SicilianPizza">
+                      <input type="hidden" id="order_name" value="{{name.name}}">
+                    Size:  <select id="size" name="{{name.name}}">
+                      {% if name.large %}
+                       <option value="Large">Large</option>
+                      {% endif %}
+                       <option value="Small">Small</option>
+
+                     </select>
+                     <span id="toppings_place"></span>
+
+                     <button class="add" data-value="{{name}}">add to cart</button>
+                   </div>
+                   <hr>
+              {% endfor %}
+        </ul>
+      </li>
+
+      <li>
+         <h3>Subs</h3>
+        <ul>
+            {% for name in Subs %}
+                  <label for="{{name.name}}">{{name}}</label>
+                  <div class="meal" method="post"><input id="order_id" type="hidden" value="{{name.id}}"><input id="className" type="hidden" value="Subs">
+
+                  Size:  <select id="size" name="{{name.name}}">
+                    {% if name.large %}
+                     <option value="Large">Large</option>
+                    {% endif %}
+                     <option value="Small">Small</option>
+
+                   </select>
+                   <button class="add" data-value="{{name}}">add to cart</button>
+                 </div>
+                 <hr>
+            {% endfor %}
+        </ul>
+      </li>
+
+      <li>
+         <h3>Pasta</h3>
+         <ul>
+            {% for name in Pastas %}
+
+                  <label for="{{name.name}}">{{name}}</label>
+                  <div class="meal" method="post"><input id="order_id" type="hidden" value="{{name.id}}"><input id="className" type="hidden" value="Pasta">
+                  Size:  <select id="size" name="{{name.name}}">
+                    {% if name.large %}
+                     <option value="Large">Large</option>
+                    {% endif %}
+                     <option value="Small">Small</option>
+
+                   </select>
+                   <button class="add" data-value="{{name}}">add to cart</button>
+                 </div>
+                   <hr>
+            {% endfor %}
+        </ul>
+      </li>
+
+      <li>
+        <h3>Salads</h3>
+        <ul>
+            {% for name in Salads %}
+                    <label for="{{name.name}}">{{name}}</label>
+                    <div class="meal" method="post"><input id="order_id" type="hidden" value="{{name.id}}"><input id="className" type="hidden" value="Salad">
+
+                    Size:  <select id="size" name="{{name.name}}">
+                      {% if name.large %}
+                       <option value="Large">Large</option>
+                      {% endif %}
+                       <option value="Small">Small</option>
+
+                     </select>
+                     <button class="add" data-value="{{name}}">add to cart</button>
+                   </div>
+                   <hr>
+            {% endfor %}
+        </ul>
+      </li>
+
+      <li>
+        <h3>Dinner Platters</h3>
+        <ul>
+            {% for name in DPs %}
+              <label for="{{name.name}}">{{name}}</label>
+              <div class="meal" method="post"><input id="order_id" type="hidden" value="{{name.id}}"><input id="className" type="hidden" value="DinnerPlatters">
+                Size:  <select id="size" name="{{name.name}}">
+                  {% if name.large %}
+                   <option value="Large">Large</option>
+                  {% endif %}
+                   <option value="Small">Small</option>
+
+                 </select>
+                 <button class="add" data-value="{{name}}">add to cart</button>
+               </div>
+               <hr>
+                          {% endfor %}
+        </ul>
+      </li>
+    </ul>
+
+</div>
+
+<!-- the whole names of type of meals customer chooses will appear in div below-->
+<h3>Your Cart</h3>
+
+<div >
+  <ul id="NewSelected">
+  {% for meal in incarts %}
+    <li>{{meal}}
+      <button class="remove" type="button" name="button">remove</button>
+    <input type="hidden" name="" value="{{meal.pk}}">
+  </li>
+  {% endfor %}
+</ul>
+</div>
+
+<br>
+<button id="order" type="button" name="button" >Order</button>
+
+{% endblock %}
