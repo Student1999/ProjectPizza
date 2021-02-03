@@ -8,3 +8,5 @@ where they can add items (along with toppings, if appropriate) to their virtual 
 The contents of the shopping can be saved even if a user closes the window, or logs out and logs back in again.
 Once there is at least one item in a user’s shopping cart, they can place an order,
 Site administrators can have access to a page where they can view any orders that have already been placed.
+
+# Repo belongs to Zakir Aghayev (https://github.com/zakiraghayev)
